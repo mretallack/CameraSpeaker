@@ -4,6 +4,7 @@ import logging
 
 import paramiko
 import voluptuous as vol
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.typing import ConfigType
@@ -11,26 +12,7 @@ from homeassistant.helpers.typing import ConfigType
 _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "camera_speaker"
-
 TTS_URL = "https://thingino.com/say2"
-
-CONFIG_SCHEMA = vol.Schema(
-    {
-        DOMAIN: vol.Schema(
-            {
-                vol.Required("host"): cv.string,
-                vol.Optional("user", default="root"): cv.string,
-                vol.Optional("port", default=22): cv.port,
-                vol.Optional("volume", default=100): vol.All(int, vol.Range(min=0, max=100)),
-                vol.Optional("gain", default=31): vol.All(int, vol.Range(min=0, max=31)),
-                vol.Optional("chimes", default=3): vol.All(int, vol.Range(min=0, max=10)),
-                vol.Optional("chime_delay", default=200): int,
-                vol.Optional("repeat", default=2): vol.All(int, vol.Range(min=1, max=10)),
-            }
-        )
-    },
-    extra=vol.ALLOW_EXTRA,
-)
 
 SAY_SCHEMA = vol.Schema(
     {
@@ -69,15 +51,26 @@ def _ssh_exec(host: str, user: str, port: int, command: str) -> str:
         client.close()
 
 
+def _get_conf(hass: HomeAssistant) -> dict:
+    """Get config from the first config entry."""
+    entries = hass.config_entries.async_entries(DOMAIN)
+    if not entries:
+        return {}
+    return dict(entries[0].data)
+
+
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up Camera Speaker integration."""
-    conf = config[DOMAIN]
 
     async def _run_ssh(host, user, port, command):
         return await hass.async_add_executor_job(_ssh_exec, host, user, port, command)
 
     async def handle_say(call: ServiceCall) -> None:
         """Handle the say service call."""
+        conf = _get_conf(hass)
+        if not conf:
+            _LOGGER.error("Camera Speaker not configured")
+            return
         host = call.data.get("host", conf["host"])
         user = conf["user"]
         port = conf["port"]
@@ -113,6 +106,10 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     async def handle_sound(call: ServiceCall) -> None:
         """Handle the sound service call."""
+        conf = _get_conf(hass)
+        if not conf:
+            _LOGGER.error("Camera Speaker not configured")
+            return
         host = call.data.get("host", conf["host"])
         volume = call.data.get("volume", conf["volume"])
         gain = call.data.get("gain", conf["gain"])
@@ -129,6 +126,10 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     async def handle_stop(call: ServiceCall) -> None:
         """Handle the stop service call."""
+        conf = _get_conf(hass)
+        if not conf:
+            _LOGGER.error("Camera Speaker not configured")
+            return
         host = call.data.get("host", conf["host"])
         _LOGGER.info("Camera Speaker stop on %s", host)
         await _run_ssh(
@@ -147,4 +148,14 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         schema=vol.Schema({vol.Optional("host"): cv.string}),
     )
 
+    return True
+
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Set up Camera Speaker from a config entry."""
+    return True
+
+
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Unload a config entry."""
     return True

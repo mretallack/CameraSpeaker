@@ -3,7 +3,18 @@
   "config": {
     "step": {
       "user": {
-        "description": "Configure Camera Speaker"
+        "title": "Camera Speaker Setup",
+        "description": "Configure your thingino camera for audio playback.",
+        "data": {
+          "host": "Camera hostname",
+          "user": "SSH user",
+          "port": "SSH port",
+          "volume": "Volume (0-100)",
+          "gain": "Gain (0-31)",
+          "chimes": "Attention chimes before speech",
+          "chime_delay": "Delay between chimes (ms)",
+          "repeat": "Times to repeat speech"
+        }
       }
     }
   },
