@@ -1,0 +1,4 @@
+[camera]
+host = camera2
+user = root
+port = 22
