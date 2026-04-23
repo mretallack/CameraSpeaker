@@ -1,0 +1,66 @@
+say:
+  fields:
+    message:
+      required: true
+      example: "Hello world"
+      selector:
+        text:
+    host:
+      example: "camera1"
+      selector:
+        text:
+    volume:
+      example: 100
+      selector:
+        number:
+          min: 0
+          max: 100
+    gain:
+      example: 31
+      selector:
+        number:
+          min: 0
+          max: 31
+    chimes:
+      example: 3
+      selector:
+        number:
+          min: 0
+          max: 10
+    repeat:
+      example: 2
+      selector:
+        number:
+          min: 1
+          max: 10
+
+sound:
+  fields:
+    name:
+      required: true
+      example: "chime_1"
+      selector:
+        text:
+    host:
+      example: "camera1"
+      selector:
+        text:
+    volume:
+      example: 100
+      selector:
+        number:
+          min: 0
+          max: 100
+    gain:
+      example: 31
+      selector:
+        number:
+          min: 0
+          max: 31
+
+stop:
+  fields:
+    host:
+      example: "camera1"
+      selector:
+        text:

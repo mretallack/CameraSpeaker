@@ -1,0 +1,74 @@
+{
+  "title": "Camera Speaker",
+  "config": {
+    "step": {
+      "user": {
+        "description": "Configure Camera Speaker"
+      }
+    }
+  },
+  "services": {
+    "say": {
+      "name": "Say",
+      "description": "Play attention chimes then speak text on camera via TTS.",
+      "fields": {
+        "message": {
+          "name": "Message",
+          "description": "Text to speak."
+        },
+        "host": {
+          "name": "Host",
+          "description": "Camera hostname (overrides config)."
+        },
+        "volume": {
+          "name": "Volume",
+          "description": "Volume 0-100."
+        },
+        "gain": {
+          "name": "Gain",
+          "description": "Gain 0-31."
+        },
+        "chimes": {
+          "name": "Chimes",
+          "description": "Number of attention chimes before speech."
+        },
+        "repeat": {
+          "name": "Repeat",
+          "description": "How many times to play the speech."
+        }
+      }
+    },
+    "sound": {
+      "name": "Sound",
+      "description": "Play a built-in sound on the camera.",
+      "fields": {
+        "name": {
+          "name": "Sound name",
+          "description": "Name of the built-in sound (e.g. chime_1)."
+        },
+        "host": {
+          "name": "Host",
+          "description": "Camera hostname (overrides config)."
+        },
+        "volume": {
+          "name": "Volume",
+          "description": "Volume 0-100."
+        },
+        "gain": {
+          "name": "Gain",
+          "description": "Gain 0-31."
+        }
+      }
+    },
+    "stop": {
+      "name": "Stop",
+      "description": "Stop audio playback on the camera.",
+      "fields": {
+        "host": {
+          "name": "Host",
+          "description": "Camera hostname (overrides config)."
+        }
+      }
+    }
+  }
+}
