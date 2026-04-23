@@ -1,9 +1,9 @@
 {
-  "title": "Camera Speaker",
+  "title": "Thingino Camera Speaker",
   "config": {
     "step": {
       "user": {
-        "title": "Camera Speaker Setup",
+        "title": "Thingino Camera Speaker Setup",
         "description": "Configure your thingino camera for audio playback.",
         "data": {
           "host": "Camera hostname",

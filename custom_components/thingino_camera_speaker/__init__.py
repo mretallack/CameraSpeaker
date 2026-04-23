@@ -11,7 +11,7 @@ from homeassistant.helpers.typing import ConfigType
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "camera_speaker"
+DOMAIN = "thingino_camera_speaker"
 TTS_URL = "https://thingino.com/say2"
 
 SAY_SCHEMA = vol.Schema(

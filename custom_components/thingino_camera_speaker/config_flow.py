@@ -1,13 +1,13 @@
-"""Config flow for Camera Speaker."""
+"""Config flow for Thingino Camera Speaker."""
 
 import voluptuous as vol
 from homeassistant import config_entries
 
-DOMAIN = "camera_speaker"
+DOMAIN = "thingino_camera_speaker"
 
 
-class CameraSpeakerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Camera Speaker."""
+class ThinginoCameraSpeakerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for Thingino Camera Speaker."""
 
     VERSION = 1
 
