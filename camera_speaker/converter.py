@@ -25,8 +25,17 @@ def convert_to_opus(input_path: str) -> str:
     tmp.close()
     subprocess.run(
         [
-            "ffmpeg", "-y", "-i", input_path,
-            "-ar", "16000", "-ac", "1", "-c:a", "libopus", tmp.name,
+            "ffmpeg",
+            "-y",
+            "-i",
+            input_path,
+            "-ar",
+            "16000",
+            "-ac",
+            "1",
+            "-c:a",
+            "libopus",
+            tmp.name,
         ],
         capture_output=True,
         check=True,

@@ -1,5 +1,6 @@
-import paramiko
 import sys
+
+import paramiko
 
 
 class Transport:

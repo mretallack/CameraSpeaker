@@ -2,8 +2,15 @@ from camera_speaker.config import load_config
 from camera_speaker.transport import Transport
 
 
-def say(text: str, host: str = None, volume: int = None, gain: int = None,
-        chimes: int = 3, chime_delay: int = 200, repeat: int = 2):
+def say(
+    text: str,
+    host: str = None,
+    volume: int = None,
+    gain: int = None,
+    chimes: int = 3,
+    chime_delay: int = 200,
+    repeat: int = 2,
+):
     """Play attention chimes then speak text on camera.
 
     Args:

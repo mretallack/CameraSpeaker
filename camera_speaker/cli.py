@@ -10,7 +10,9 @@ from camera_speaker.transport import Transport
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="camera-speaker", description="Send audio to thingino cameras")
+    parser = argparse.ArgumentParser(
+        prog="camera-speaker", description="Send audio to thingino cameras"
+    )
     parser.add_argument("--host", "-H")
     parser.add_argument("--user", "-u")
     parser.add_argument("--port", "-p", type=int)
@@ -33,15 +35,25 @@ def main():
     sub.add_parser("stop", help="Stop playback")
 
     args = parser.parse_args()
-    cfg = load_config({
-        "host": args.host, "user": args.user, "port": args.port,
-        "volume": args.volume, "gain": args.gain,
-    })
+    cfg = load_config(
+        {
+            "host": args.host,
+            "user": args.user,
+            "port": args.port,
+            "volume": args.volume,
+            "gain": args.gain,
+        }
+    )
 
     t = Transport(cfg["host"], cfg["user"], cfg["port"])
     try:
-        {"play": cmd_play, "say": cmd_say, "sound": cmd_sound,
-         "sounds": cmd_sounds, "stop": cmd_stop}[args.command](t, cfg, args)
+        {
+            "play": cmd_play,
+            "say": cmd_say,
+            "sound": cmd_sound,
+            "sounds": cmd_sounds,
+            "stop": cmd_stop,
+        }[args.command](t, cfg, args)
     finally:
         t.close()
 
@@ -75,6 +87,7 @@ def cmd_play(t: Transport, cfg: dict, args):
 
 def cmd_say(t: Transport, cfg: dict, args):
     from camera_speaker.api import say
+
     try:
         say(args.text, host=cfg["host"], volume=cfg["volume"], gain=cfg["gain"])
     except RuntimeError as e:
@@ -82,7 +95,9 @@ def cmd_say(t: Transport, cfg: dict, args):
 
 
 def cmd_sound(t: Transport, cfg: dict, args):
-    out, err = t.ssh_exec(f"play -v {cfg['volume']} -g {cfg['gain']} /usr/share/sounds/{args.name}.opus")
+    out, err = t.ssh_exec(
+        f"play -v {cfg['volume']} -g {cfg['gain']} /usr/share/sounds/{args.name}.opus"
+    )
     if err.strip():
         print(err, file=sys.stderr)
 

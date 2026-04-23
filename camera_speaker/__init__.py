@@ -1,1 +1,1 @@
-from camera_speaker.api import say
+from camera_speaker.api import say  # noqa: F401
