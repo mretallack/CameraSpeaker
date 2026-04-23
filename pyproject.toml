@@ -7,6 +7,7 @@ name = "camera-speaker"
 version = "0.1.0"
 description = "Send audio to thingino IP cameras for playback"
 requires-python = ">=3.13"
+license = "MIT"
 dependencies = ["paramiko>=3.4.0,<4"]
 
 [project.scripts]
