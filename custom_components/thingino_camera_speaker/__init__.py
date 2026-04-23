@@ -1,8 +1,8 @@
 """Thingino Camera Speaker integration for Home Assistant."""
 
 import logging
+import subprocess
 
-import paramiko
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -36,18 +36,25 @@ SOUND_SCHEMA = vol.Schema(
 
 def _ssh_exec(host: str, user: str, port: int, command: str) -> str:
     """Execute a command on the camera via SSH."""
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    try:
-        client.connect(host, port=port, username=user)
-        _, stdout, stderr = client.exec_command(command)
-        out = stdout.read().decode()
-        err = stderr.read().decode()
-        if err.strip():
-            _LOGGER.warning("Camera stderr: %s", err.strip())
-        return out
-    finally:
-        client.close()
+    result = subprocess.run(
+        [
+            "ssh",
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-o",
+            "ConnectTimeout=10",
+            "-p",
+            str(port),
+            f"{user}@{host}",
+            command,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    if result.stderr.strip():
+        _LOGGER.warning("Camera stderr: %s", result.stderr.strip())
+    return result.stdout
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
