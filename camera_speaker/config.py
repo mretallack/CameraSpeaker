@@ -6,7 +6,7 @@ DEFAULTS = {
     "host": "camera2",
     "user": "root",
     "port": 22,
-    "volume": 60,
+    "volume": 95,
     "gain": 20,
 }
 

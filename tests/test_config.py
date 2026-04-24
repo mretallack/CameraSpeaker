@@ -6,7 +6,7 @@ def test_defaults():
     assert cfg["host"] == "camera2"
     assert cfg["user"] == "root"
     assert cfg["port"] == 22
-    assert cfg["volume"] == 60
+    assert cfg["volume"] == 95
     assert cfg["gain"] == 20
 
 
